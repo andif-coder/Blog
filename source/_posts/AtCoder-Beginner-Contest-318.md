@@ -23,7 +23,7 @@ tags:
 
 ## 思路
 
-![image-20230905222331920](/Users/chenweijie/Library/Application Support/typora-user-images/image-20230905222331920.png)
+![](1.png)
 
 考虑把章鱼头放到$k_0$的位置，那么我们怎么判断这个位置可以不可以呢？
 
