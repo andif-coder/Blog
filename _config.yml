@@ -107,9 +107,10 @@ deploy:
   branch: main
 
 # markdown
-markdown:
-  plugins:
-    - plugin:
-      name: '@neilsustc/markdown-it-katex'
-      options:
-        strict: false
+# markdown:
+#   plugins:
+#     - plugin:
+#       name: '@neilsustc/markdown-it-katex'
+#       enable: true
+#       options:
+#         strict: false

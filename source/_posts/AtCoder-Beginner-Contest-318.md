@@ -16,7 +16,7 @@ tags:
 
 ## 数据范围
 
-- $ 1 \leq N \leq 200$
+- $1 \leq N \leq 200$
 - $-10^{18} \leq X_1 < X_2 < \cdots < X_N \leq 10 ^ {18}$
 - $1 \leq L_1 \leq L_2 \leq \cdots \leq L_N \leq 10 ^ {18}$
 - 所有输入都是整数
