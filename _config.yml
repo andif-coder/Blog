@@ -111,6 +111,5 @@ markdown:
   plugins:
     - plugin:
       name: '@neilsustc/markdown-it-katex'
-      enable: true
       options:
         strict: false
