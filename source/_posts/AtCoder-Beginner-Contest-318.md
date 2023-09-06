@@ -1,7 +1,11 @@
 ---
 title: AtCoder Beginner Contest 318
 date: 2023-09-05 21:36:00
-tags:
+categories:
+- 算法
+tags: 
+- 算法
+- Atcoder
 katex: true
 ---
 
