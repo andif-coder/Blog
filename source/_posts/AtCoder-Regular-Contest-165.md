@@ -137,5 +137,124 @@ int main() {
 */
 ```
 
+# C - Social Distance on Graph
+
+## 题意
+
+给你一个无向简单图($n$个点，$m$条边)，该图是连通的，每个边有权重$w_i$，现在让你把每个点染成红色或者蓝色，并且同个颜色点之间简单路径的边权重和最小值最大，让你求这个值$X$ 
+
+## 数据范围
+
+$3 \leq n \leq 2 \times 10^5$
+
+$n - 1 \leq m \leq min(\frac{n(n-1)}{2}, 2 \times 10 ^ 5)$
+
+$1 \leq w_i \leq 10^9$
+
+## 思路
+
+不然发现，这个值$X$具有二分性质，因为大的成立的话，小的肯定成立。
+
+因此我们可以二分$X$，那么我们如何判断一个$X$是否能够成立呢
+
+首先，边权大于$X$的边我们都可以不考虑，
+
+我们就基于边权小于$X$的边来建图，不然发现这个图一定要是个二分图，
+
+所以我们可以通过染色来判断这个图是不是一个二分图，
+
+在这个基础上，我们还得看看含有两个边的简单路径是不是合法，如果合法的话，则所有的简单路径都合法
+
+## 代码
+```c++
+/**
+ *    author: andif
+ *    created: 24.09.2023 12:41:10
+**/
+#include<bits/stdc++.h>
+using namespace std;
+
+#define de(x) cerr << #x << " = " << x << endl
+#define dd(x) cerr << #x << " = " << x << " "
+#define rep(i, a, b) for(int i = a; i < b; ++i)
+#define per(i, a, b) for(int i = a; i > b; --i)
+#define mt(a, b) memset(a, b, sizeof(a))
+#define sz(a) (int)a.size()
+#define fi first
+#define se second
+#define qc ios_base::sync_with_stdio(0);cin.tie(0)
+#define eb emplace_back
+#define all(a) a.begin(), a.end()
+using ll = long long;
+using db = double;
+using pii = pair<int, int>;
+using pdd = pair<db, db>;
+using pll = pair<ll, ll>;
+using vi = vector<int>;
+using vl = vector<ll>;
+const db eps = 1e-9;
+
+struct Edges {
+    int u, v, w;
+};
+
+bool dfs(int u, const vector<vector<pii>>& g, vi& vis, int color) {
+    if (vis[u] != -1) return vis[u] == color;
+    vis[u] = color;
+    bool ret = true;
+    for (auto [w, v]: g[u]) {
+        int nxt_color = vis[u] ^ 1;
+        ret &= dfs(v, g, vis, nxt_color);
+    }
+    return ret;
+}
+
+int main() {
+    qc;
+    int n, m; cin >> n >> m;
+    vector<Edges> edges(m);
+    rep(i, 0, m) {
+        cin >> edges[i].u >> edges[i].v >> edges[i].w;
+        edges[i].u--;
+        edges[i].v--;
+    }
+
+    auto ok = [&] (int x) {
+        vector<vector<pii>> g(n);
+        for (auto [u, v, w]: edges) {
+            if (w >= x) continue;
+            // dd(u), dd(v), dd(w), de(x);
+            g[u].eb(pair(w, v));
+            g[v].eb(pair(w, u));
+        }
+        rep(i, 0, n) sort(all(g[i]));
+        vi vis(n, -1);
+        rep(i, 0, n) {
+            if (vis[i] != -1) continue;
+            if (!dfs(i, g, vis, 0)) {
+                // de(i);
+                // rep(i, 0, n) dd(i), de(vis[i]);
+                return false;
+            }
+        }
+
+        int mn = std::numeric_limits<int>::max();
+        rep(i, 0, n) {
+            if (sz(g[i]) < 2) continue;
+            mn = min(mn, g[i][0].fi + g[i][1].fi);
+        }
+        // de(mn);
+        return mn >= x;
+    };
+    int l = 1, r = 2e9;
+    while(l + 1 < r) {
+        int mid = (1ll * l + r) >> 1;
+        if (ok(mid)) l = mid;
+        else r = mid;
+    }
+    cout << (ok(r) ? r : l) << '\n';
+    return 0;
+}
+```
 
 
